@@ -1,6 +1,11 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const fs = require("fs");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+
+const configPath = path.resolve(__dirname, "pages-config.json");
+
+const configFileContent = fs.readFileSync(configPath);
 
 module.exports = {
     mode: "development",
@@ -57,6 +62,6 @@ module.exports = {
             template: "src/index.html",
             chunks: ["bundle"]
         }),
-        new BundleAnalyzerPlugin()
+        // new BundleAnalyzerPlugin()
     ]
 }

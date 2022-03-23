@@ -51,7 +51,10 @@ export type LocalizedPostPageConfig = {
         name: string;
         slug: string;
     },
-    otherLocales: string[]
+    otherLocales: {
+        locale: string;
+        url: string;
+    }[]
 };
 
 // locale.category-slug.post-slug.post

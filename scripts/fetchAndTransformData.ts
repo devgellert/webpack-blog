@@ -42,7 +42,10 @@ export default async () => {
 
                 const categoryTranslation = category.translations.find(categoryTranslation => categoryTranslation.locale === locale);
 
-                const otherLocales = post.translations.filter(translation => translation.locale !== locale).map(translation => translation.locale);
+                const otherLocales = post.translations.filter(translation => translation.locale !== locale).map(translation => ({
+                    locale: translation.locale,
+                    url: `${process.env.PUBLIC_URL}/${translation.locale}/${category.slug}/${post.slug}`
+                }));
 
                 pagesConfig[locale][category.slug][post.slug] = {
                     title: translation.title,

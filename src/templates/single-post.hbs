@@ -1,14 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-</head>
-<body>
-<div>
-    <h1>Hi</h1>
-</div>
-</body>
-</html>
+{{> _partials/head
+    metaTitle=metaTitle
+    metaDescription=metaDescription
+    ogTitle=ogTitle
+    ogDescription=ogDescription
+    otherLocales=otherLocales
+}}
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+    </ul>
+</nav>
+
+<main>
+    <h1>{{title}}</h1>
+</main>
+
+{{> _partials/tail }}

@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const configPath = path.resolve(__dirname, "pages-config.json");
 
@@ -82,8 +83,8 @@ module.exports = {
                         options: {
                             esModule: false,
                             limit: 1024,
-                            outputPath: "media",
-                            publicPath: "/media",
+                            // outputPath: "media",
+                            // publicPath: "/media",
                             name: "[name].[hash:8].[ext]",
                         }
                     }
@@ -110,6 +111,7 @@ module.exports = {
             filename: "[name].[hash].css",
             chunkFilename: "[id].css"
         }),
+        new CopyWebpackPlugin({ patterns: [{ from: "./public" }] }),
         ...postPlugins
     ]
 }

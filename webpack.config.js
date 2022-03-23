@@ -1,7 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
-// const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const configPath = path.resolve(__dirname, "pages-config.json");
 
@@ -24,7 +23,7 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                 new HtmlWebpackPlugin({
                     title: post.metaTitle,
                     filename: `${locale}/${categorySlug}/${postSlug}.html`,
-                    template: "src/index.html",
+                    template: "src/templates/single-post.hbs",
                     chunks: ["bundle"]
                 })
             )
@@ -67,6 +66,10 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: "asset/resource"
+            },
+            {
+                test: /\.hbs$/,
+                loader: "handlebars-loader"
             }
         ]
     },
@@ -81,13 +84,6 @@ module.exports = {
         historyApiFallback: true
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            title: "Webpack App",
-            filename: "index.html",
-            template: "src/index.html",
-            chunks: ["bundle"]
-        }),
         ...postPlugins
-        // new BundleAnalyzerPlugin()
     ]
 }

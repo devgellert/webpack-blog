@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const configPath = path.resolve(__dirname, "pages-config.json");
 
@@ -57,7 +58,8 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [
-                    "style-loader",
+                    MiniCssExtractPlugin.loader,
+                    // "style-loader",
                     "css-loader",
                     "sass-loader"
                 ]
@@ -93,6 +95,10 @@ module.exports = {
         historyApiFallback: true
     },
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: "[name].[hash].css",
+            chunkFilename: "[id].css"
+        }),
         ...postPlugins
     ]
 }

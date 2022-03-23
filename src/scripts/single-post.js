@@ -1,1 +1,1 @@
-console.log("Hello world")
+import "../style/single-post.scss";

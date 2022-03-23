@@ -1,11 +1,36 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const configPath = path.resolve(__dirname, "pages-config.json");
 
 const configFileContent = fs.readFileSync(configPath);
+
+const parsedConfigFileContent = JSON.parse(configFileContent.toString())
+
+const postPlugins = [];
+
+Object.keys(parsedConfigFileContent).forEach((locale) => {
+    const localeContent = parsedConfigFileContent[locale];
+
+    Object.keys(localeContent).forEach(( categorySlug) => {
+        const categoryContent = localeContent[categorySlug];
+
+        Object.keys(categoryContent).forEach(( postSlug) => {
+            const post = categoryContent[postSlug]
+
+            postPlugins.push(
+                new HtmlWebpackPlugin({
+                    title: post.metaTitle,
+                    filename: `${locale}/${categorySlug}/${postSlug}.html`,
+                    template: "src/index.html",
+                    chunks: ["bundle"]
+                })
+            )
+        });
+    });
+});
 
 module.exports = {
     mode: "development",
@@ -62,6 +87,7 @@ module.exports = {
             template: "src/index.html",
             chunks: ["bundle"]
         }),
+        ...postPlugins
         // new BundleAnalyzerPlugin()
     ]
 }

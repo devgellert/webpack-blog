@@ -50,6 +50,7 @@ export type LocalizedPostPageConfig = {
     category: {
         name: string;
         slug: string;
+        url: string;
     },
     otherLocales: {
         locale: string;

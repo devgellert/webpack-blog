@@ -55,7 +55,8 @@ export default async () => {
                     ogDescription: translation.ogDescription,
                     category: {
                         name: categoryTranslation ? categoryTranslation.name : "n/a", // TODO use fallback
-                        slug: category.slug
+                        slug: category.slug,
+                        url: `${process.env.PUBLIC_URL}/${translation.locale}/${category.slug}`
                     },
                     blocks: JSON.parse(translation.content).blocks,
                     otherLocales

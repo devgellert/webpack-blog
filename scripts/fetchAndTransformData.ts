@@ -57,7 +57,7 @@ export default async () => {
                         name: categoryTranslation ? categoryTranslation.name : "n/a", // TODO use fallback
                         slug: category.slug
                     },
-                    content: [],
+                    blocks: JSON.parse(translation.content).blocks,
                     otherLocales
                 }
             }

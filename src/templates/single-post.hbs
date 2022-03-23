@@ -11,8 +11,48 @@
     </ul>
 </nav>
 
-<main>
-    <h1>{{title}}</h1>
+<main class="container">
+    <article>
+        <h1>{{title}}</h1>
+
+        {{#each blocks}}
+            <p>
+                {{#[./helpers/eq] this.type "paragraph" }}
+                    <p>{{this.data.text}}</p>
+                {{/[./helpers/eq]}}
+
+                {{#[./helpers/eq] this.type "image" }}
+                    <img src="{{this.data.file.url}}" alt="todo">
+                {{/[./helpers/eq]}}
+
+                {{#[./helpers/eq] this.type "Header" }}
+                    {{#[./helpers/eq] this.data.level 1 }}
+                        <h1>h1</h1>
+                    {{/[./helpers/eq]}}
+
+                    {{#[./helpers/eq] this.data.level 2 }}
+                        <h2>h2</h2>
+                    {{/[./helpers/eq]}}
+
+                    {{#[./helpers/eq] this.data.level 3 }}
+                        <h3>h3</h3>
+                    {{/[./helpers/eq]}}
+
+                    {{#[./helpers/eq] this.data.level 4 }}
+                        <h4>h4</h4>
+                    {{/[./helpers/eq]}}
+
+                    {{#[./helpers/eq] this.data.level 5 }}
+                        <h5>h5</h5>
+                    {{/[./helpers/eq]}}
+
+                    {{#[./helpers/eq] this.data.level 6 }}
+                        <h6>h6</h6>
+                    {{/[./helpers/eq]}}
+                {{/[./helpers/eq]}}
+            </p>
+        {{/each}}
+    </article>
 </main>
 
 {{> _partials/tail }}

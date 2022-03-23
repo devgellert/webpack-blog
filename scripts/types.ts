@@ -46,7 +46,7 @@ export type LocalizedPostPageConfig = {
     metaDescription: string;
     ogTitle: string;
     ogDescription: string;
-    content: any; // TODO
+    blocks: {id: string; type: string; data: object; }[]; // TODO
     category: {
         name: string;
         slug: string;

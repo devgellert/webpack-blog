@@ -8,6 +8,15 @@ const configFileContent = fs.readFileSync(configPath);
 
 const parsedConfigFileContent = JSON.parse(configFileContent.toString())
 
+const scripts = fs.readdirSync(path.resolve(__dirname, "src/scripts"));
+
+const scriptEntries = {};
+
+scripts.forEach(script => {
+    const withoutExt = path.parse(script).name;
+    scriptEntries[withoutExt] = path.resolve(__dirname, `src/scripts/${script}`)
+});
+
 const postPlugins = [];
 
 Object.keys(parsedConfigFileContent).forEach((locale) => {
@@ -24,7 +33,7 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                     title: post.metaTitle,
                     filename: `${locale}/${categorySlug}/${postSlug}.html`,
                     template: "src/templates/single-post.hbs",
-                    chunks: ["bundle"]
+                    chunks: ["index", "single-post"]
                 })
             )
         });
@@ -34,7 +43,7 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
 module.exports = {
     mode: "development",
     entry: {
-        bundle: path.resolve(__dirname, "src/index.js")
+        ...scriptEntries
     },
     output: {
         path: path.resolve(__dirname, "dist"),
@@ -78,7 +87,7 @@ module.exports = {
             directory: path.resolve(__dirname, "dist")
         },
         port: 3000,
-        open: true,
+        // open: true,
         hot: true,
         compress: true,
         historyApiFallback: true

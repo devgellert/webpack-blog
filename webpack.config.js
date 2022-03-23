@@ -76,7 +76,18 @@ module.exports = {
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                type: "asset/resource"
+                use: [
+                    {
+                        loader: require.resolve("url-loader"),
+                        options: {
+                            esModule: false,
+                            limit: 1024,
+                            outputPath: "media",
+                            publicPath: "/media",
+                            name: "[name].[hash:8].[ext]",
+                        }
+                    }
+                ],
             },
             {
                 test: /\.hbs$/,

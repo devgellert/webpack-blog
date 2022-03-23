@@ -45,7 +45,8 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
 module.exports = {
     mode: "development",
     entry: {
-        ...scriptEntries
+        ...scriptEntries,
+        home: path.resolve(__dirname, "src/scripts/home.js")
     },
     output: {
         path: path.resolve(__dirname, "dist"),
@@ -112,6 +113,12 @@ module.exports = {
             chunkFilename: "[id].css"
         }),
         new CopyWebpackPlugin({ patterns: [{ from: "./public" }] }),
+        new HtmlWebpackPlugin({
+            title: "Home",
+            filename: `index.html`,
+            template: "src/templates/home.hbs",
+            chunks: ["index", "home"]
+        }),
         ...postPlugins
     ]
 }

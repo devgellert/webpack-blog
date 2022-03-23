@@ -1,14 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-<body>
+{{> _partials/head
+    metaTitle="Test Blog"
+    metaDescription="Test blog meta description"
+    ogTitle="Test blog og title"
+    ogDescription="Test blog og description"
+}}
+
 <div>
+    <nav>
+        <ul>
+            <li><a href="/en/category-1/post-8.html">See This Post!</a></li>
+        </ul>
+    </nav>
+    
     <h1>Hi</h1>
 </div>
-</body>
-</html>
+
+{{> _partials/tail }}

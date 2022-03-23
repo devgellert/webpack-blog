@@ -35,7 +35,8 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                     title: post.metaTitle,
                     filename: `${locale}/${categorySlug}/${postSlug}.html`,
                     template: "src/templates/single-post.hbs",
-                    chunks: ["index", "single-post"]
+                    chunks: ["index", "single-post"],
+                    templateParameters: post
                 })
             )
         });

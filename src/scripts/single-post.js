@@ -1,1 +1,1 @@
-import "../style/single-post.scss";
+import "../styles/single-post.scss";

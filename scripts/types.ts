@@ -62,7 +62,12 @@ export type LocalizedPostPageConfig = {
 export type PagesConfig = {
     [key in string]: {
         [key in string]: {
-            [key in string]: LocalizedPostPageConfig;
+            posts: {
+                [key in string]: LocalizedPostPageConfig;
+            }
+            categoryName: string;
+            categorySlug: string;
+            categoryLocale: string;
         }
     }
 }

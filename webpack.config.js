@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
@@ -27,8 +29,10 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
     Object.keys(localeContent).forEach(( categorySlug) => {
         const categoryContent = localeContent[categorySlug];
 
-        Object.keys(categoryContent).forEach(( postSlug) => {
-            const post = categoryContent[postSlug]
+        const categoryPagePostsData = [];
+
+        Object.keys(categoryContent.posts).forEach((postSlug) => {
+            const post = categoryContent.posts[postSlug]
 
             postPlugins.push(
                 new HtmlWebpackPlugin({
@@ -39,7 +43,28 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                     templateParameters: post
                 })
             )
+
+            categoryPagePostsData.push({
+                title: post.title,
+                url: `${process.env.PUBLIC_URL}/${locale}/${categorySlug}/${postSlug}.html`
+            });
         });
+
+        // add category page
+        postPlugins.push(
+            new HtmlWebpackPlugin({
+                title: categoryContent.categoryName,
+                filename: `${locale}/${categorySlug}/index.html`,
+                template: "src/templates/category.hbs",
+                chunks: ["index", "category"],
+                templateParameters: {
+                    name: categoryContent.categoryName,
+                    slug: categoryContent.categorySlug,
+                    locale: categoryContent.categoryLocale,
+                    posts: categoryPagePostsData
+                }
+            })
+        )
     });
 });
 

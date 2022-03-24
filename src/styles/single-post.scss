@@ -4,39 +4,6 @@ body {
   background-color: white;
 }
 
-.single-post-header {
-  background-color: $bg;
-  padding-bottom: 40px;
-
-  .container {
-    min-height: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  h1 {
-    text-align: center;
-    max-width: 500px;
-  }
-
-  .post-category {
-    text-align: center;
-  }
-
-  .post-meta {
-    display: flex;
-    justify-content: center;
-
-    span {
-      &:last-child {
-        margin-left: 10px;
-      }
-    }
-  }
-}
-
 .post-wrap {
   display: grid;
   grid-template-columns: 300px 1fr 300px;

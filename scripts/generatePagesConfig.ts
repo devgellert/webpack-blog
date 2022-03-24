@@ -8,5 +8,5 @@ fetchAndTransformData().then(data => {
     fs.writeFileSync(filePath, JSON.stringify(data));
 })
 .catch(e => {
-    console.error("Failed to generate pages config..");
+    console.error("Failed to generate pages config..", e);
 });

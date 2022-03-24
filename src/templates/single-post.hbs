@@ -42,15 +42,15 @@
     <aside class="post-aside">
         <div>Tartalom:</div>
 
-        {{#each blocks}}
-            <ul>
+        <ul>
+            {{#each blocks}}
                 {{#[./helpers/eq] this.type "Header" }}
                     {{#[./helpers/eq] this.data.level 2 }}
                         <li>{{this.data.text}}</li>
                     {{/[./helpers/eq]}}
                 {{/[./helpers/eq]}}
-            </ul>
-        {{/each}}
+            {{/each}}
+        </ul>
     </aside>
 
     <article class="post-content">

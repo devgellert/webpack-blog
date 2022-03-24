@@ -47,7 +47,7 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                     templateParameters: {
                         post,
                         i18n: staticTranslations?.["single-post"] ?? {}
-                    }
+                    },
                 })
             )
 
@@ -151,7 +151,10 @@ module.exports = {
             title: "Home",
             filename: `index.html`,
             template: "src/templates/home.hbs",
-            chunks: ["index", "home"]
+            chunks: ["index", "home"],
+            templateParameters: {
+                i18n: translations?.["en"]?.["home"] ?? {}
+            }
         }),
         ...postPlugins
     ]

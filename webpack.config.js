@@ -6,6 +6,8 @@ const fs = require("fs");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
+const translations = require("./translations");
+
 const configPath = path.resolve(__dirname, "pages-config.json");
 
 const configFileContent = fs.readFileSync(configPath);
@@ -26,7 +28,9 @@ const postPlugins = [];
 Object.keys(parsedConfigFileContent).forEach((locale) => {
     const localeContent = parsedConfigFileContent[locale];
 
-    Object.keys(localeContent).forEach(( categorySlug) => {
+    const staticTranslations = translations?.[locale] ?? {};
+
+    Object.keys(localeContent).forEach((categorySlug) => {
         const categoryContent = localeContent[categorySlug];
 
         const categoryPagePostsData = [];
@@ -40,7 +44,10 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                     filename: `${locale}/${categorySlug}/${postSlug}.html`,
                     template: "src/templates/single-post.hbs",
                     chunks: ["index", "single-post"],
-                    templateParameters: post
+                    templateParameters: {
+                        post,
+                        i18n: staticTranslations?.["single-post"] ?? {}
+                    }
                 })
             )
 
@@ -61,7 +68,8 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                     name: categoryContent.categoryName,
                     slug: categoryContent.categorySlug,
                     locale: categoryContent.categoryLocale,
-                    posts: categoryPagePostsData
+                    posts: categoryPagePostsData,
+                    i18n: staticTranslations?.["category"] ?? {}
                 }
             })
         )

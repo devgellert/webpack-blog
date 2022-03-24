@@ -12,10 +12,10 @@
 
 <main class="container post-wrap">
     <aside class="post-aside">
-        <div>Tartalom:</div>
+        <div>{{i18n.Content}}:</div>
 
         <ul>
-            {{#each blocks}}
+            {{#each post.blocks}}
                 {{#[./helpers/eq] this.type "Header" }}
                     {{#[./helpers/eq] this.data.level 2 }}
                         <li>{{this.data.text}}</li>
@@ -26,7 +26,7 @@
     </aside>
 
     <article class="post-content">
-        {{#each blocks}}
+        {{#each post.blocks}}
             <div>
                 {{#[./helpers/eq] this.type "paragraph" }}
                     <p>{{this.data.text}}</p>

@@ -1,5 +1,12 @@
 module.exports = {
 	en: {
+		global: {
+			nav: {
+				archive: "Archive",
+				home: "Home"
+			}
+		},
+
 		['single-post']: {
 			Content: "Content",
 		},
@@ -29,6 +36,12 @@ module.exports = {
 		}
 	},
 	hu: {
+		global: {
+			nav: {
+				archive: "Achívum",
+				home: "Főoldal"
+			}
+		},
 		['single-post']: {
 			Content: "Tartalom",
 		},

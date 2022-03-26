@@ -30,6 +30,26 @@ const createOtherLocales = (createUrl) => locales.map(locale => ({
 
 const locales = (process.env.LOCALES || "").split(',');
 
+const getPageTranslations = (locale, page) => {
+    const staticTranslations = translations?.[locale] ?? {};
+
+    const i18n = staticTranslations?.[page] ?? {};
+
+    return {
+        ...i18n,
+        global: staticTranslations?.global ?? {}
+    }
+}
+
+const createCommonConfig = (locale) =>  ({
+    global: {
+        nav: {
+            homeUrl: `${process.env.PUBLIC_URL}/`,
+            archiveUrl: `${process.env.PUBLIC_URL}/${locale}/archive.html`
+        }
+    }
+})
+
 const pagePlugins = [];
 
 Object.keys(parsedConfigFileContent).forEach((locale) => {
@@ -54,8 +74,9 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                     template: "src/templates/single-post.hbs",
                     chunks: ["index", "single-post"],
                     templateParameters: {
+                        ...createCommonConfig(locale),
                         post,
-                        i18n: staticTranslations?.["single-post"] ?? {}
+                        i18n: getPageTranslations(locale, "single-post")
                     },
                 })
             )
@@ -74,11 +95,12 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                 template: "src/templates/category.hbs",
                 chunks: ["index", "category"],
                 templateParameters: {
+                    ...createCommonConfig(locale),
                     name: categoryContent.categoryName,
                     slug: categoryContent.categorySlug,
                     locale: categoryContent.categoryLocale,
                     posts: categoryPagePostsData,
-                    i18n: staticTranslations?.["category"] ?? {},
+                    i18n: getPageTranslations(locale, "category"),
                     otherLocales: createOtherLocales((locale) => `/${locale}/${categorySlug}`)
                 }
             })
@@ -98,8 +120,9 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
             template: "src/templates/archive.hbs",
             chunks: ["index", "archive"],
             templateParameters: {
+                ...createCommonConfig(locale),
                 categories: archiveCategories,
-                i18n: staticTranslations?.["archive"] ?? {},
+                i18n: getPageTranslations(locale, "archive"),
                 otherLocales: createOtherLocales(locale => `/${locale}/archive.html`)
             }
         })

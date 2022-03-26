@@ -10,6 +10,16 @@ module.exports = {
 		},
 		home: {
 			test: "Test % asdas d"
+		},
+		archive: {
+			headerTitle: "Archive",
+			headerDescription: "Let's browse our categories!",
+			seo: {
+				metaTitle: "Archive",
+				metaDescription: "Let's browse our categories!",
+				ogTitle: "Archive",
+				ogDescription: "Let's browse our categories!"
+			}
 		}
 	},
 	hu: {
@@ -23,6 +33,16 @@ module.exports = {
 		},
 		home: {
 			test: "Test % asdas d"
+		},
+		archive: {
+			headerTitle: "Archívum",
+			headerDescription: "Böngésszen a kategóriáink között!",
+			seo: {
+				metaTitle: "Archívum",
+				metaDescription: "Böngésszen a kategóriáink között!",
+				ogTitle: "Archívum",
+				ogDescription: "Böngésszen a kategóriáink között!"
+			}
 		}
 	}
 }

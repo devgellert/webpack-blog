@@ -23,12 +23,16 @@ scripts.forEach(script => {
     scriptEntries[withoutExt] = path.resolve(__dirname, `src/scripts/${script}`)
 });
 
-const postPlugins = [];
+const locales = (process.env.LOCALES || "").split(',');
+
+const pagePlugins = [];
 
 Object.keys(parsedConfigFileContent).forEach((locale) => {
     const localeContent = parsedConfigFileContent[locale];
 
     const staticTranslations = translations?.[locale] ?? {};
+
+    const archiveCategories = [];
 
     Object.keys(localeContent).forEach((categorySlug) => {
         const categoryContent = localeContent[categorySlug];
@@ -38,7 +42,7 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
         Object.keys(categoryContent.posts).forEach((postSlug) => {
             const post = categoryContent.posts[postSlug]
 
-            postPlugins.push(
+            pagePlugins.push(
                 new HtmlWebpackPlugin({
                     title: post.metaTitle,
                     filename: `${locale}/${categorySlug}/${postSlug}.html`,
@@ -58,7 +62,7 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
         });
 
         // add category page
-        postPlugins.push(
+        pagePlugins.push(
             new HtmlWebpackPlugin({
                 title: categoryContent.categoryName,
                 filename: `${locale}/${categorySlug}/index.html`,
@@ -72,8 +76,28 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                     i18n: staticTranslations?.["category"] ?? {}
                 }
             })
-        )
+        );
+
+        archiveCategories.push({
+            name: categoryContent.categoryName,
+            url: `${process.env.PUBLIC_URL}/${locale}/${categorySlug}`
+        });
     });
+
+    // add archive page
+    pagePlugins.push(
+        new HtmlWebpackPlugin({
+            title: "Archive",
+            filename: `${locale}/archive.html`,
+            template: "src/templates/archive.hbs",
+            chunks: ["index", "archive"],
+            templateParameters: {
+                categories: archiveCategories,
+                i18n: staticTranslations?.["archive"] ?? {},
+                otherLocales: locales.map(locale => ({locale, url: `${process.env.PUBLIC_URL}/${locale}/archive.html`}))
+            } // TODO
+        })
+    );
 });
 
 module.exports = {
@@ -156,6 +180,6 @@ module.exports = {
                 i18n: translations?.["en"]?.["home"] ?? {}
             }
         }),
-        ...postPlugins
+        ...pagePlugins
     ]
 }

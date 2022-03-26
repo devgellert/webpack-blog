@@ -1,0 +1,26 @@
+{{> _partials/head
+    metaTitle=i18n.seo.metaTitle
+    metaDescription=i18n.seo.metaDescription
+    ogTitle=i18n.seo.ogTitle
+    ogDescription=i18n.seo.ogDescription
+    otherLocales=otherLocales
+}}
+
+{{> _partials/header
+        archiveHeader=true
+}}
+
+
+<main class="container post-wrap">
+    <div class="list-group mt-5">
+        {{#each categories}}
+            <a href="{{this.url}}" class="list-group-item list-group-item-action" aria-current="true">
+                <div class="d-flex w-100 justify-content-between">
+                    <h2 class="mb-1">{{this.name}}</h2>
+                </div>
+            </a>
+        {{/each}}
+    </div>
+</main>
+
+{{> _partials/tail }}

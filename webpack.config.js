@@ -37,32 +37,6 @@ const getPageAndGlobalTranslations = (locale, page) => {
     };
 };
 
-const createCommonConfig = (locale, createLocaleUrl) => {
-    const createOtherLocales = createUrl => {
-        return locales.map(locale => ({
-            locale,
-            url: `${process.env.PUBLIC_URL}${createUrl(locale)}`
-        }));
-    };
-
-    return {
-        global: {
-            nav: {
-                homeUrl: `${process.env.PUBLIC_URL}/`,
-                archiveUrl: `${process.env.PUBLIC_URL}/${locale}/archive.html`
-            },
-            locale: {
-                current: {
-                    locale,
-                    url: createLocaleUrl(locale)
-                },
-                all: createOtherLocales(createLocaleUrl),
-                others: createOtherLocales(createLocaleUrl).filter(elem => elem.locale !== locale)
-            }
-        }
-    };
-};
-
 const pagePlugins = [];
 
 const each = (object, cb) => Object.keys(object).forEach(key => cb(key, object[key]));
@@ -86,6 +60,31 @@ const chunksByPage = {
     category: ["index", "category"],
     archive: ["index", "archive"],
     home: ["index", "home"]
+};
+
+const createCommonConfig = (locale, createLocaleUrl) => {
+    const all = locales.map(locale => ({
+        locale,
+        url: `${process.env.PUBLIC_URL}/${createLocaleUrl(locale)}`
+    }));
+
+    const others = all.filter(elem => elem.locale !== locale);
+
+    const current = all.find(item => item.locale === locale);
+
+    return {
+        global: {
+            nav: {
+                homeUrl: `${process.env.PUBLIC_URL}/${createFilenames.home(locale)}`,
+                archiveUrl: `${process.env.PUBLIC_URL}/${createFilenames.archive(locale)}`
+            },
+            locale: {
+                current,
+                all,
+                others
+            }
+        }
+    };
 };
 
 each(config, (locale, localeContent) => {
@@ -158,7 +157,7 @@ each(config, (locale, localeContent) => {
             template: templatePaths.archive,
             chunks: chunksByPage.archive,
             templateParameters: {
-                ...createCommonConfig(locale, locale => `/${locale}/archive.html`),
+                ...createCommonConfig(locale, createFilenames.archive),
                 categories: archiveCategories,
                 i18n: getPageAndGlobalTranslations(locale, "archive")
             }

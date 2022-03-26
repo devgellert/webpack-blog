@@ -1,10 +1,11 @@
-require('dotenv').config()
-
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
+const dotenv = require("dotenv");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+
+dotenv.config();
 
 const translations = require("./translations");
 
@@ -12,7 +13,7 @@ const configPath = path.resolve(__dirname, "pages-config.json");
 
 const configFileContent = fs.readFileSync(configPath);
 
-const parsedConfigFileContent = JSON.parse(configFileContent.toString())
+const parsedConfigFileContent = JSON.parse(configFileContent.toString());
 
 const scripts = fs.readdirSync(path.resolve(__dirname, "src/scripts"));
 
@@ -20,15 +21,16 @@ const scriptEntries = {};
 
 scripts.forEach(script => {
     const withoutExt = path.parse(script).name;
-    scriptEntries[withoutExt] = path.resolve(__dirname, `src/scripts/${script}`)
+    scriptEntries[withoutExt] = path.resolve(__dirname, `src/scripts/${script}`);
 });
 
-const createOtherLocales = (createUrl) => locales.map(locale => ({
-    locale,
-    url: `${process.env.PUBLIC_URL}${createUrl(locale)}`
-}));
+const createOtherLocales = createUrl =>
+    locales.map(locale => ({
+        locale,
+        url: `${process.env.PUBLIC_URL}${createUrl(locale)}`
+    }));
 
-const locales = (process.env.LOCALES || "").split(',');
+const locales = (process.env.LOCALES || "").split(",");
 
 const getPageTranslations = (locale, page) => {
     const staticTranslations = translations?.[locale] ?? {};
@@ -38,10 +40,10 @@ const getPageTranslations = (locale, page) => {
     return {
         ...i18n,
         global: staticTranslations?.global ?? {}
-    }
-}
+    };
+};
 
-const createCommonConfig = (locale, createLocaleUrl) =>  ({
+const createCommonConfig = (locale, createLocaleUrl) => ({
     global: {
         nav: {
             homeUrl: `${process.env.PUBLIC_URL}/`,
@@ -56,24 +58,22 @@ const createCommonConfig = (locale, createLocaleUrl) =>  ({
             others: createOtherLocales(createLocaleUrl).filter(elem => elem.locale !== locale)
         }
     }
-})
+});
 
 const pagePlugins = [];
 
-Object.keys(parsedConfigFileContent).forEach((locale) => {
+Object.keys(parsedConfigFileContent).forEach(locale => {
     const localeContent = parsedConfigFileContent[locale];
-
-    const staticTranslations = translations?.[locale] ?? {};
 
     const archiveCategories = [];
 
-    Object.keys(localeContent).forEach((categorySlug) => {
+    Object.keys(localeContent).forEach(categorySlug => {
         const categoryContent = localeContent[categorySlug];
 
         const categoryPagePostsData = [];
 
-        Object.keys(categoryContent.posts).forEach((postSlug) => {
-            const post = categoryContent.posts[postSlug]
+        Object.keys(categoryContent.posts).forEach(postSlug => {
+            const post = categoryContent.posts[postSlug];
 
             pagePlugins.push(
                 new HtmlWebpackPlugin({
@@ -82,12 +82,12 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                     template: "src/templates/single-post.hbs",
                     chunks: ["index", "single-post"],
                     templateParameters: {
-                        ...createCommonConfig(locale, (locale) => `/${locale}/${categorySlug}/${postSlug}.html`),
+                        ...createCommonConfig(locale, locale => `/${locale}/${categorySlug}/${postSlug}.html`),
                         post,
                         i18n: getPageTranslations(locale, "single-post")
-                    },
+                    }
                 })
-            )
+            );
 
             categoryPagePostsData.push({
                 title: post.title,
@@ -103,7 +103,7 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                 template: "src/templates/category.hbs",
                 chunks: ["index", "category"],
                 templateParameters: {
-                    ...createCommonConfig(locale, (locale) => `/${locale}/${categorySlug}`),
+                    ...createCommonConfig(locale, locale => `/${locale}/${categorySlug}`),
                     name: categoryContent.categoryName,
                     slug: categoryContent.categorySlug,
                     locale: categoryContent.categoryLocale,
@@ -179,10 +179,10 @@ module.exports = {
                             limit: 1024,
                             // outputPath: "media",
                             // publicPath: "/media",
-                            name: "[name].[hash:8].[ext]",
+                            name: "[name].[hash:8].[ext]"
                         }
                     }
-                ],
+                ]
             },
             {
                 test: /\.hbs$/,
@@ -218,4 +218,4 @@ module.exports = {
         }),
         ...pagePlugins
     ]
-}
+};

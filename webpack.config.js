@@ -4,35 +4,29 @@ const dotenv = require("dotenv");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+//
+const translations = require("./translations");
 
 dotenv.config();
 
-const translations = require("./translations");
+const paths = {
+    config: path.resolve(__dirname, "pages-config.json"),
+    scripts: path.resolve(__dirname, "src/scripts")
+};
 
-const configPath = path.resolve(__dirname, "pages-config.json");
+const configFile = fs.readFileSync(paths.config);
+const config = JSON.parse(configFile.toString());
 
-const configFileContent = fs.readFileSync(configPath);
-
-const parsedConfigFileContent = JSON.parse(configFileContent.toString());
-
-const scripts = fs.readdirSync(path.resolve(__dirname, "src/scripts"));
-
+const scripts = fs.readdirSync(paths.scripts);
 const scriptEntries = {};
-
 scripts.forEach(script => {
     const withoutExt = path.parse(script).name;
     scriptEntries[withoutExt] = path.resolve(__dirname, `src/scripts/${script}`);
 });
 
-const createOtherLocales = createUrl =>
-    locales.map(locale => ({
-        locale,
-        url: `${process.env.PUBLIC_URL}${createUrl(locale)}`
-    }));
-
 const locales = (process.env.LOCALES || "").split(",");
 
-const getPageTranslations = (locale, page) => {
+const getPageAndGlobalTranslations = (locale, page) => {
     const staticTranslations = translations?.[locale] ?? {};
 
     const i18n = staticTranslations?.[page] ?? {};
@@ -43,48 +37,87 @@ const getPageTranslations = (locale, page) => {
     };
 };
 
-const createCommonConfig = (locale, createLocaleUrl) => ({
-    global: {
-        nav: {
-            homeUrl: `${process.env.PUBLIC_URL}/`,
-            archiveUrl: `${process.env.PUBLIC_URL}/${locale}/archive.html`
-        },
-        locale: {
-            current: {
-                locale,
-                url: createLocaleUrl(locale)
+const createCommonConfig = (locale, createLocaleUrl) => {
+    const createOtherLocales = createUrl => {
+        return locales.map(locale => ({
+            locale,
+            url: `${process.env.PUBLIC_URL}${createUrl(locale)}`
+        }));
+    };
+
+    return {
+        global: {
+            nav: {
+                homeUrl: `${process.env.PUBLIC_URL}/`,
+                archiveUrl: `${process.env.PUBLIC_URL}/${locale}/archive.html`
             },
-            all: createOtherLocales(createLocaleUrl),
-            others: createOtherLocales(createLocaleUrl).filter(elem => elem.locale !== locale)
+            locale: {
+                current: {
+                    locale,
+                    url: createLocaleUrl(locale)
+                },
+                all: createOtherLocales(createLocaleUrl),
+                others: createOtherLocales(createLocaleUrl).filter(elem => elem.locale !== locale)
+            }
         }
-    }
-});
+    };
+};
 
 const pagePlugins = [];
 
-Object.keys(parsedConfigFileContent).forEach(locale => {
-    const localeContent = parsedConfigFileContent[locale];
+const each = (object, cb) => Object.keys(object).forEach(key => cb(key, object[key]));
 
+const createFilenames = {
+    post: (locale, category, post) => `${locale}/${category}/${post}.html`,
+    category: (locale, category) => `${locale}/${category}/index.html`,
+    archive: locale => `${locale}/archive.html`,
+    home: locale => `${locale}/index.html`
+};
+
+const templatePaths = {
+    post: "src/templates/single-post.hbs",
+    category: "src/templates/category.hbs",
+    archive: "src/templates/archive.hbs",
+    home: "src/templates/home.hbs"
+};
+
+const chunksByPage = {
+    post: ["index", "single-post"],
+    category: ["index", "category"],
+    archive: ["index", "archive"],
+    home: ["index", "home"]
+};
+
+each(config, (locale, localeContent) => {
     const archiveCategories = [];
 
-    Object.keys(localeContent).forEach(categorySlug => {
-        const categoryContent = localeContent[categorySlug];
-
+    each(localeContent, (categorySlug, categoryContent) => {
         const categoryPagePostsData = [];
 
-        Object.keys(categoryContent.posts).forEach(postSlug => {
+        pagePlugins.push(
+            new HtmlWebpackPlugin({
+                ...createCommonConfig(locale, createFilenames.home),
+                filename: createFilenames.home(locale),
+                template: templatePaths.home,
+                chunks: chunksByPage.home,
+                templateParameters: {
+                    i18n: getPageAndGlobalTranslations(locale, "home")
+                }
+            })
+        );
+
+        each(categoryContent.posts, postSlug => {
             const post = categoryContent.posts[postSlug];
 
             pagePlugins.push(
                 new HtmlWebpackPlugin({
-                    title: post.metaTitle,
-                    filename: `${locale}/${categorySlug}/${postSlug}.html`,
-                    template: "src/templates/single-post.hbs",
-                    chunks: ["index", "single-post"],
+                    filename: createFilenames.post(locale, categorySlug, postSlug),
+                    template: templatePaths.post,
+                    chunks: chunksByPage.post,
                     templateParameters: {
-                        ...createCommonConfig(locale, locale => `/${locale}/${categorySlug}/${postSlug}.html`),
+                        ...createCommonConfig(locale, locale => createFilenames.post(locale, categorySlug, postSlug)),
                         post,
-                        i18n: getPageTranslations(locale, "single-post")
+                        i18n: getPageAndGlobalTranslations(locale, "single-post")
                     }
                 })
             );
@@ -98,17 +131,16 @@ Object.keys(parsedConfigFileContent).forEach(locale => {
         // add category page
         pagePlugins.push(
             new HtmlWebpackPlugin({
-                title: categoryContent.categoryName,
-                filename: `${locale}/${categorySlug}/index.html`,
-                template: "src/templates/category.hbs",
-                chunks: ["index", "category"],
+                filename: createFilenames.category(locale, categorySlug),
+                template: templatePaths.category,
+                chunks: chunksByPage.category,
                 templateParameters: {
-                    ...createCommonConfig(locale, locale => `/${locale}/${categorySlug}`),
+                    ...createCommonConfig(locale, locale => createFilenames.category(locale, categorySlug)),
                     name: categoryContent.categoryName,
                     slug: categoryContent.categorySlug,
                     locale: categoryContent.categoryLocale,
                     posts: categoryPagePostsData,
-                    i18n: getPageTranslations(locale, "category")
+                    i18n: getPageAndGlobalTranslations(locale, "category")
                 }
             })
         );
@@ -122,14 +154,13 @@ Object.keys(parsedConfigFileContent).forEach(locale => {
     // add archive page
     pagePlugins.push(
         new HtmlWebpackPlugin({
-            title: "Archive",
-            filename: `${locale}/archive.html`,
-            template: "src/templates/archive.hbs",
-            chunks: ["index", "archive"],
+            filename: createFilenames.archive(locale),
+            template: templatePaths.archive,
+            chunks: chunksByPage.archive,
             templateParameters: {
                 ...createCommonConfig(locale, locale => `/${locale}/archive.html`),
                 categories: archiveCategories,
-                i18n: getPageTranslations(locale, "archive")
+                i18n: getPageAndGlobalTranslations(locale, "archive")
             }
         })
     );
@@ -206,16 +237,6 @@ module.exports = {
             chunkFilename: "[id].css"
         }),
         new CopyWebpackPlugin({ patterns: [{ from: "./public" }] }),
-        new HtmlWebpackPlugin({
-            ...createCommonConfig("en", () => ""),
-            title: "Home",
-            filename: `index.html`,
-            template: "src/templates/home.hbs",
-            chunks: ["index", "home"],
-            templateParameters: {
-                i18n: translations?.["en"]?.["home"] ?? {}
-            }
-        }),
         ...pagePlugins
     ]
 };

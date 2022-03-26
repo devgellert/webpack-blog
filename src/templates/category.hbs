@@ -1,8 +1,8 @@
 {{> _partials/head
-    metaTitle=metaTitle
-    metaDescription=metaDescription
-    ogTitle=ogTitle
-    ogDescription=ogDescription
+    metaTitle=([./helpers/t] i18n.seo "metaTitle" name)
+    metaDescription=([./helpers/t] i18n.seo "metaDescription" name)
+    ogTitle=([./helpers/t] i18n.seo "ogTitle" name)
+    ogDescription=([./helpers/t] i18n.seo "ogDescription" name)
     otherLocales=otherLocales
 }}
 
@@ -24,7 +24,6 @@
             </a>
         {{/each}}
     </div>
-
 </main>
 
 {{> _partials/tail }}

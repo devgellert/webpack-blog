@@ -23,6 +23,11 @@ scripts.forEach(script => {
     scriptEntries[withoutExt] = path.resolve(__dirname, `src/scripts/${script}`)
 });
 
+const createOtherLocales = (createUrl) => locales.map(locale => ({
+    locale,
+    url: `${process.env.PUBLIC_URL}${createUrl(locale)}`
+}));
+
 const locales = (process.env.LOCALES || "").split(',');
 
 const pagePlugins = [];
@@ -73,7 +78,8 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                     slug: categoryContent.categorySlug,
                     locale: categoryContent.categoryLocale,
                     posts: categoryPagePostsData,
-                    i18n: staticTranslations?.["category"] ?? {}
+                    i18n: staticTranslations?.["category"] ?? {},
+                    otherLocales: createOtherLocales((locale) => `/${locale}/${categorySlug}`)
                 }
             })
         );
@@ -94,8 +100,8 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
             templateParameters: {
                 categories: archiveCategories,
                 i18n: staticTranslations?.["archive"] ?? {},
-                otherLocales: locales.map(locale => ({locale, url: `${process.env.PUBLIC_URL}/${locale}/archive.html`}))
-            } // TODO
+                otherLocales: createOtherLocales(locale => `/${locale}/archive.html`)
+            }
         })
     );
 });

@@ -6,7 +6,13 @@ module.exports = {
 		category: {
 			Category: "Category",
 			updatedText: "Updated % days ago",
-			clickText: "Click to see the full article"
+			clickText: "Click to see the full article",
+			seo: {
+				metaTitle: "% - Category",
+				metaDescription: "% - Category",
+				ogTitle: "% - Category",
+				ogDescription: "% - Category"
+			}
 		},
 		home: {
 			test: "Test % asdas d"
@@ -29,7 +35,13 @@ module.exports = {
 		category: {
 			Category: "Kategória",
 			updatedText: "% napja frissítve",
-			clickText: "Kattintson ide a teljes poszt megetkintéséhez"
+			clickText: "Kattintson ide a teljes poszt megetkintéséhez",
+			seo: {
+				metaTitle: "% - Kategória",
+				metaDescription: "% - Kategória",
+				ogTitle: "% - Kategória",
+				ogDescription: "% - Kategória"
+			}
 		},
 		home: {
 			test: "Test % asdas d"

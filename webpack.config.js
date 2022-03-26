@@ -25,6 +25,8 @@ scripts.forEach(script => {
 });
 
 const locales = (process.env.LOCALES || "").split(",");
+const defaultLocale = process.env.DEFAULT_LOCALE || null;
+const htmlExtensionInUrl = process.env.HTML_EXTENSION_IN_URL === "true";
 
 const getPageAndGlobalTranslations = (locale, page) => {
     const staticTranslations = translations?.[locale] ?? {};
@@ -41,11 +43,68 @@ const pagePlugins = [];
 
 const each = (object, cb) => Object.keys(object).forEach(key => cb(key, object[key]));
 
+const htmlExtension = htmlExtensionInUrl ? ".html" : "";
+
 const createFilenames = {
-    post: (locale, category, post) => `${locale}/${category}/${post}.html`,
-    category: (locale, category) => `${locale}/${category}/index.html`,
-    archive: locale => `${locale}/archive.html`,
-    home: locale => `${locale}/index.html`
+    post: (locale, category, post) => {
+        if (defaultLocale === locale) {
+            return `${category}/${post}.html`;
+        }
+
+        return `${locale}/${category}/${post}.html`;
+    },
+    category: (locale, category) => {
+        if (defaultLocale === locale) {
+            return `${category}/index.html`;
+        }
+
+        return `${locale}/${category}/index.html`;
+    },
+    archive: locale => {
+        if (defaultLocale === locale) {
+            return `archive.html`;
+        }
+
+        return `${locale}/archive.html`;
+    },
+    home: locale => {
+        if (defaultLocale === locale) {
+            return "index.html";
+        }
+
+        return `${locale}/index.html`;
+    }
+};
+
+const createPaths = {
+    post: (locale, category, post) => {
+        if (defaultLocale === locale) {
+            return `${category}/${post}${htmlExtension}`;
+        }
+
+        return `${locale}/${category}/${post}${htmlExtension}`;
+    },
+    category: (locale, category) => {
+        if (defaultLocale === locale) {
+            return `${category}/`;
+        }
+
+        return `${locale}/${category}/`;
+    },
+    archive: locale => {
+        if (defaultLocale === locale) {
+            return `archive${htmlExtension}`;
+        }
+
+        return `${locale}/archive${htmlExtension}`;
+    },
+    home: locale => {
+        if (defaultLocale === locale) {
+            return "";
+        }
+
+        return locale;
+    }
 };
 
 const templatePaths = {
@@ -62,10 +121,10 @@ const chunksByPage = {
     home: ["index", "home"]
 };
 
-const createCommonConfig = (locale, createLocaleUrl) => {
+const createCommonConfig = (locale, createPath) => {
     const all = locales.map(locale => ({
         locale,
-        url: `${process.env.PUBLIC_URL}/${createLocaleUrl(locale)}`
+        url: `${process.env.PUBLIC_URL}/${createPath(locale)}`
     }));
 
     const others = all.filter(elem => elem.locale !== locale);
@@ -75,8 +134,8 @@ const createCommonConfig = (locale, createLocaleUrl) => {
     return {
         global: {
             nav: {
-                homeUrl: `${process.env.PUBLIC_URL}/${createFilenames.home(locale)}`,
-                archiveUrl: `${process.env.PUBLIC_URL}/${createFilenames.archive(locale)}`
+                homeUrl: `${process.env.PUBLIC_URL}/${createPaths.home(locale)}`,
+                archiveUrl: `${process.env.PUBLIC_URL}/${createPaths.archive(locale)}`
             },
             locale: {
                 current,
@@ -95,11 +154,11 @@ each(config, (locale, localeContent) => {
 
         pagePlugins.push(
             new HtmlWebpackPlugin({
-                ...createCommonConfig(locale, createFilenames.home),
                 filename: createFilenames.home(locale),
                 template: templatePaths.home,
                 chunks: chunksByPage.home,
                 templateParameters: {
+                    ...createCommonConfig(locale, createPaths.home),
                     i18n: getPageAndGlobalTranslations(locale, "home")
                 }
             })
@@ -114,7 +173,7 @@ each(config, (locale, localeContent) => {
                     template: templatePaths.post,
                     chunks: chunksByPage.post,
                     templateParameters: {
-                        ...createCommonConfig(locale, locale => createFilenames.post(locale, categorySlug, postSlug)),
+                        ...createCommonConfig(locale, locale => createPaths.post(locale, categorySlug, postSlug)),
                         post,
                         i18n: getPageAndGlobalTranslations(locale, "single-post")
                     }
@@ -123,7 +182,7 @@ each(config, (locale, localeContent) => {
 
             categoryPagePostsData.push({
                 title: post.title,
-                url: `${process.env.PUBLIC_URL}/${locale}/${categorySlug}/${postSlug}.html`
+                url: `${process.env.PUBLIC_URL}/${createPaths.post(locale, categorySlug, postSlug)}`
             });
         });
 
@@ -134,7 +193,7 @@ each(config, (locale, localeContent) => {
                 template: templatePaths.category,
                 chunks: chunksByPage.category,
                 templateParameters: {
-                    ...createCommonConfig(locale, locale => createFilenames.category(locale, categorySlug)),
+                    ...createCommonConfig(locale, locale => createPaths.category(locale, categorySlug)),
                     name: categoryContent.categoryName,
                     slug: categoryContent.categorySlug,
                     locale: categoryContent.categoryLocale,
@@ -157,7 +216,7 @@ each(config, (locale, localeContent) => {
             template: templatePaths.archive,
             chunks: chunksByPage.archive,
             templateParameters: {
-                ...createCommonConfig(locale, createFilenames.archive),
+                ...createCommonConfig(locale, createPaths.archive),
                 categories: archiveCategories,
                 i18n: getPageAndGlobalTranslations(locale, "archive")
             }

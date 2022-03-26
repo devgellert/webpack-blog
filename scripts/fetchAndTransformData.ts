@@ -8,6 +8,7 @@ const api = axios.create({
 });
 
 const locales = (process.env.LOCALES || "").split(",");
+const defaultLocale = process.env.DEFAULT_LOCALE || null;
 
 export default async () => {
     const [postsResponse, categoriesResponse]: [GetPublicApiPostsResponse, GetPublicApiCategoriesResponse] =
@@ -48,6 +49,14 @@ export default async () => {
                 }
 
                 // posts
+                const categoryUrl = (() => {
+                    if (defaultLocale === translation.locale) {
+                        return `${process.env.PUBLIC_URL}/${category.slug}`;
+                    }
+
+                    return `${process.env.PUBLIC_URL}/${translation.locale}/${category.slug}`;
+                })();
+
                 pagesConfig[locale][category.slug].posts[post.slug] = {
                     title: translation.title,
                     metaDescription: translation.metaDescription,
@@ -57,7 +66,7 @@ export default async () => {
                     category: {
                         name: categoryTranslation ? categoryTranslation.name : "n/a", // TODO use fallback
                         slug: category.slug,
-                        url: `${process.env.PUBLIC_URL}/${translation.locale}/${category.slug}`
+                        url: categoryUrl
                     },
                     blocks: JSON.parse(translation.content).blocks
                 };

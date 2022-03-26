@@ -10,6 +10,18 @@
                     <div class="navbar-nav">
                         <a class="nav-link" href="{{global.nav.archiveUrl}}">{{i18n.global.nav.archive}}</a>
                     </div>
+
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{global.locale.current.locale}}
+                        </a>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            {{#each global.locale.others }}
+                                <li><a class="dropdown-item" href="{{this.url}}">{{this.locale}}</a></li>
+                            {{/each}}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>

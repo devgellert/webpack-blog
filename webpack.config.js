@@ -41,11 +41,19 @@ const getPageTranslations = (locale, page) => {
     }
 }
 
-const createCommonConfig = (locale) =>  ({
+const createCommonConfig = (locale, createLocaleUrl) =>  ({
     global: {
         nav: {
             homeUrl: `${process.env.PUBLIC_URL}/`,
             archiveUrl: `${process.env.PUBLIC_URL}/${locale}/archive.html`
+        },
+        locale: {
+            current: {
+                locale,
+                url: createLocaleUrl(locale)
+            },
+            all: createOtherLocales(createLocaleUrl),
+            others: createOtherLocales(createLocaleUrl).filter(elem => elem.locale !== locale)
         }
     }
 })
@@ -74,7 +82,7 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                     template: "src/templates/single-post.hbs",
                     chunks: ["index", "single-post"],
                     templateParameters: {
-                        ...createCommonConfig(locale),
+                        ...createCommonConfig(locale, (locale) => `/${locale}/${categorySlug}/${postSlug}.html`),
                         post,
                         i18n: getPageTranslations(locale, "single-post")
                     },
@@ -95,13 +103,12 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
                 template: "src/templates/category.hbs",
                 chunks: ["index", "category"],
                 templateParameters: {
-                    ...createCommonConfig(locale),
+                    ...createCommonConfig(locale, (locale) => `/${locale}/${categorySlug}`),
                     name: categoryContent.categoryName,
                     slug: categoryContent.categorySlug,
                     locale: categoryContent.categoryLocale,
                     posts: categoryPagePostsData,
-                    i18n: getPageTranslations(locale, "category"),
-                    otherLocales: createOtherLocales((locale) => `/${locale}/${categorySlug}`)
+                    i18n: getPageTranslations(locale, "category")
                 }
             })
         );
@@ -120,10 +127,9 @@ Object.keys(parsedConfigFileContent).forEach((locale) => {
             template: "src/templates/archive.hbs",
             chunks: ["index", "archive"],
             templateParameters: {
-                ...createCommonConfig(locale),
+                ...createCommonConfig(locale, locale => `/${locale}/archive.html`),
                 categories: archiveCategories,
-                i18n: getPageTranslations(locale, "archive"),
-                otherLocales: createOtherLocales(locale => `/${locale}/archive.html`)
+                i18n: getPageTranslations(locale, "archive")
             }
         })
     );
@@ -201,6 +207,7 @@ module.exports = {
         }),
         new CopyWebpackPlugin({ patterns: [{ from: "./public" }] }),
         new HtmlWebpackPlugin({
+            ...createCommonConfig("en", () => ""),
             title: "Home",
             filename: `index.html`,
             template: "src/templates/home.hbs",

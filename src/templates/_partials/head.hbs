@@ -15,7 +15,7 @@
 
     <meta name="og:description" content="{{ ogDescription }}"/>
 
-    {{#each otherLocales}}
+    {{#each global.locale.all}}
         <link rel="alternate" hreflang="{{this.locale}}" href="{{this.url}}" />
     {{/each}}
 

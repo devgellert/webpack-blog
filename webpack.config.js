@@ -73,6 +73,13 @@ const createFilenames = {
         }
 
         return `${locale}/index.html`;
+    },
+    notFound: locale => {
+        if (defaultLocale === locale) {
+            return "not-found.html";
+        }
+
+        return `${locale}/not-found.html`;
     }
 };
 
@@ -104,6 +111,13 @@ const createPaths = {
         }
 
         return locale;
+    },
+    notFound: locale => {
+        if (defaultLocale === locale) {
+            return `not-found${htmlExtension}`;
+        }
+
+        return `${locale}/not-found${htmlExtension}`;
     }
 };
 
@@ -111,14 +125,16 @@ const templatePaths = {
     post: "src/templates/single-post.hbs",
     category: "src/templates/category.hbs",
     archive: "src/templates/archive.hbs",
-    home: "src/templates/home.hbs"
+    home: "src/templates/home.hbs",
+    notFound: "src/templates/not-found.hbs"
 };
 
 const chunksByPage = {
     post: ["index", "single-post"],
     category: ["index", "category"],
     archive: ["index", "archive"],
-    home: ["index", "home"]
+    home: ["index", "home"],
+    notFound: ["index", "not-found"]
 };
 
 const createCommonConfig = (locale, createPath) => {
@@ -219,6 +235,19 @@ each(config, (locale, localeContent) => {
                 ...createCommonConfig(locale, createPaths.archive),
                 categories: archiveCategories,
                 i18n: getPageAndGlobalTranslations(locale, "archive")
+            }
+        })
+    );
+
+    // add not found page
+    pagePlugins.push(
+        new HtmlWebpackPlugin({
+            filename: createFilenames.notFound(locale),
+            template: templatePaths.notFound,
+            chunks: chunksByPage.notFound,
+            templateParameters: {
+                ...createCommonConfig(locale, createPaths.notFound),
+                i18n: getPageAndGlobalTranslations(locale, "not-found")
             }
         })
     );

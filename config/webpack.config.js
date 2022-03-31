@@ -1,18 +1,18 @@
-const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 //
-const scriptEntries = require("./config/scriptEntries");
-const pagePlugins = require("./config/pagePlugins");
+const scriptEntries = require("./scriptEntries");
+const pagePlugins = require("./pagePlugins");
+const paths = require("./paths");
 
 module.exports = {
     mode: "development",
     entry: {
         ...scriptEntries,
-        home: path.resolve(__dirname, "src/scripts/home.js")
+        home: paths.homeJs
     },
     output: {
-        path: path.resolve(__dirname, "dist"),
+        path: paths.dist,
         filename: "[name].[contenthash].js",
         clean: true,
         assetModuleFilename: "[name][ext]"
@@ -62,7 +62,7 @@ module.exports = {
     },
     devServer: {
         static: {
-            directory: path.resolve(__dirname, "dist")
+            directory: paths.dist
         },
         port: 3000,
         // open: true,

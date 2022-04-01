@@ -4,9 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "build": "npm run config && node config/build",
-        "dev": "npm run config && webpack serve",
-        "config": "npx ts-node --compiler-options '{\"module\":\"commonjs\", \"target\": \"es2017\"}' scripts/generatePagesConfig.ts"
+        "build": "build-static",
+        "dev": "build-static"
     },
     "keywords": [],
     "author": "",

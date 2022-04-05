@@ -29,7 +29,9 @@
         {{#if postHeader}}
             <div>
                 <div class="post-category">
-                    <a href="{{post.category.url}}">{{post.category.name}}</a>
+                    {{#if post.hasCategory }}
+                        <a href="{{post.category.url}}">{{post.category.name}}</a>
+                    {{/if}}
                 </div>
                 <h1>{{post.title}}</h1>
                 <div class="post-meta">

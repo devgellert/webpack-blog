@@ -126,6 +126,17 @@
                         </table>
                     {{/if}}
                 {{/[./helpers/eq]}}
+
+                {{#[./helpers/eq] this.type "Warning" }}
+                    <div class="warning">
+                        <div class="warning-title">
+                            {{{this.data.title}}}
+                        </div>
+                        <div class="warning-message">
+                            {{{this.data.message}}}
+                        </div>
+                    </div>
+                {{/[./helpers/eq]}}
             </div>
         {{/each}}
     </article>

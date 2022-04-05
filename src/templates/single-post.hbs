@@ -60,6 +60,23 @@
                         <h6>{{{this.data.text}}}</h6>
                     {{/[./helpers/eq]}}
                 {{/[./helpers/eq]}}
+
+                {{#[./helpers/eq] this.type "List" }}
+                    {{#[./helpers/eq] this.data.style "unordered" }}
+                        <ul>
+                            {{#each this.data.items}}
+                                <li>{{{this}}}</li>
+                            {{/each}}
+                        </ul>
+                    {{/[./helpers/eq]}}
+                    {{#[./helpers/eq] this.data.style "ordered" }}
+                        <ol>
+                            {{#each this.data.items}}
+                                <li>{{{this}}}</li>
+                            {{/each}}
+                        </ol>
+                    {{/[./helpers/eq]}}
+                {{/[./helpers/eq]}}
             </div>
         {{/each}}
     </article>

@@ -137,6 +137,15 @@
                         </div>
                     </div>
                 {{/[./helpers/eq]}}
+
+                {{#[./helpers/eq] this.type "SimpleImage" }}
+                    <img src="{{this.data.url}}" alt="todo">
+<!--                TODO:-->
+<!--                    "caption" : "Roadster // tesla.com",-->
+<!--                    "withBorder" : false,-->
+<!--                    "withBackground" : false,-->
+<!--                    "stretched" : true-->
+                {{/[./helpers/eq]}}
             </div>
         {{/each}}
     </article>

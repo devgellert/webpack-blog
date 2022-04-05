@@ -77,6 +77,55 @@
                         </ol>
                     {{/[./helpers/eq]}}
                 {{/[./helpers/eq]}}
+
+                {{#[./helpers/eq] this.type "Table" }}
+                    {{#if this.data.withHeadings }}
+                        <table>
+                            <thead>
+                                {{#each this.data.content}}
+                                    {{#[./helpers/eq] @index 0}}
+                                        <tr>
+                                            {{#each this}}
+                                                <th>
+                                                    {{{this}}}
+                                                </th>
+                                            {{/each}}
+                                        </tr>
+                                    {{/[./helpers/eq]}}
+                                {{/each}}
+                            </thead>
+
+                            <tbody>
+                                {{#each this.data.content}}
+                                    {{#[./helpers/eq] @index 0}}
+                                    {{else}}
+                                        <tr>
+                                            {{#each this}}
+                                                <td>
+                                                    {{{this}}}
+                                                </td>
+                                            {{/each}}
+                                        </tr>
+                                    {{/[./helpers/eq]}}
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    {{else}}
+                        <table>
+                            <tbody>
+                                {{#each this.data.content}}
+                                    <tr>
+                                        {{#each this}}
+                                            <td>
+                                                {{{this}}}
+                                            </td>
+                                        {{/each}}
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    {{/if}}
+                {{/[./helpers/eq]}}
             </div>
         {{/each}}
     </article>

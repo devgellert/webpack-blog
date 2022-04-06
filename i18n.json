@@ -22,7 +22,8 @@
             }
         },
         "home": {
-            "test": "Test % asdas d"
+            "headerTitle": "Blog",
+            "headerDescription": "Read our Latest Posts"
         },
         "archive": {
             "headerTitle": "Archive",
@@ -57,7 +58,8 @@
             }
         },
         "home": {
-            "test": "Test % asdas d"
+            "headerTitle": "Blog",
+            "headerDescription": "Olvassa el a legújabb bejegyzéseinket."
         },
         "archive": {
             "headerTitle": "Archívum",

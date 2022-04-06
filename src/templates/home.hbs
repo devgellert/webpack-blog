@@ -5,12 +5,22 @@
     ogDescription="Test blog og description"
 }}
 
-<div>
-    <nav>
-        <ul>
-            <li><a href="/en/category-1/post-8.html">See This Post!</a></li>
-        </ul>
-    </nav>
-</div>
+{{> _partials/header
+    homeHeader=true
+}}
+
+<main>
+    <div class="container mt-5">
+        {{#each latestPosts}}
+            <a class="list-group-item list-group-item-action" href="{{{ this.link }}}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h2 class="mb-1">{{{this.title}}}</h2>
+                    <small>{{{ this.updatedAt }}}</small>
+                </div>
+                <p class="mb-1">{{{ this.description }}}</p>
+            </a>
+        {{/each}}
+    </div>
+</main>
 
 {{> _partials/tail }}

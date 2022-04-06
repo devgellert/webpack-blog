@@ -3,7 +3,15 @@
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{global.nav.homeUrl}}">{{i18n.global.nav.home}}</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -12,12 +20,19 @@
                     </div>
 
                     <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a
+                            class="btn btn-secondary dropdown-toggle"
+                            href="#"
+                            role="button"
+                            id="dropdownMenuLink"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
                             {{global.locale.current.locale}}
                         </a>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            {{#each global.locale.others }}
+                            {{#each global.locale.others}}
                                 <li><a class="dropdown-item" href="{{this.url}}">{{this.locale}}</a></li>
                             {{/each}}
                         </ul>
@@ -29,7 +44,7 @@
         {{#if postHeader}}
             <div>
                 <div class="post-category">
-                    {{#if post.hasCategory }}
+                    {{#if post.hasCategory}}
                         <a href="{{post.category.url}}">{{post.category.name}}</a>
                     {{/if}}
                 </div>
@@ -49,6 +64,13 @@
         {{/if}}
 
         {{#if archiveHeader}}
+            <div>
+                <h1>{{i18n.headerTitle}}</h1>
+                <small>{{i18n.headerDescription}}</small>
+            </div>
+        {{/if}}
+
+        {{#if homeHeader}}
             <div>
                 <h1>{{i18n.headerTitle}}</h1>
                 <small>{{i18n.headerDescription}}</small>

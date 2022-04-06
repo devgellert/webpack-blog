@@ -44,14 +44,16 @@
         {{#if postHeader}}
             <div>
                 <div class="post-category">
-                    {{#if post.hasCategory}}
-                        <a href="{{post.category.url}}">{{post.category.name}}</a>
+                    {{#if post.category.translation}}
+                        <a href="{{post.category.translation.link}}">
+                            {{post.category.translation.name}}
+                        </a>
                     {{/if}}
                 </div>
                 <h1>{{post.title}}</h1>
                 <div class="post-meta">
-                    <span>User 1</span>
-                    <span>2022. 09. 22.</span>
+                    <span>{{{post.author}}}</span>
+                    <span>{{{post.updatedAt}}}</span>
                 </div>
             </div>
         {{/if}}

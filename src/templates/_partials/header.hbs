@@ -21,7 +21,7 @@
 
                     <div class="dropdown">
                         <a
-                            class="btn btn-secondary dropdown-toggle"
+                                class="btn btn-secondary dropdown-toggle{{#if global.locale.others.length}}{{else}} disabled{{/if}}"
                             href="#"
                             role="button"
                             id="dropdownMenuLink"
@@ -31,11 +31,13 @@
                             {{global.locale.current.locale}}
                         </a>
 
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            {{#each global.locale.others}}
-                                <li><a class="dropdown-item" href="{{this.url}}">{{this.locale}}</a></li>
-                            {{/each}}
-                        </ul>
+                        {{#if global.locale.others.length}}
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                {{#each global.locale.others}}
+                                    <li><a class="dropdown-item" href="{{this.url}}">{{this.locale}}</a></li>
+                                {{/each}}
+                            </ul>
+                        {{/if}}
                     </div>
                 </div>
             </div>

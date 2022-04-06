@@ -13,17 +13,18 @@
         "category": {
             "Category": "Category",
             "updatedText": "Updated % days ago",
-            "clickText": "Click to see the full article",
             "seo": {
                 "metaTitle": "% - Category",
                 "metaDescription": "% - Category",
                 "ogTitle": "% - Category",
                 "ogDescription": "% - Category"
-            }
+            },
+            "noPostsText": "There are no posts, yet. Come back later."
         },
         "home": {
             "headerTitle": "Blog",
-            "headerDescription": "Read our Latest Posts"
+            "headerDescription": "Read our Latest Posts",
+            "noPostsText": "There are no posts, yet. Come back later."
         },
         "archive": {
             "headerTitle": "Archive",
@@ -33,7 +34,8 @@
                 "metaDescription": "Let's browse our categories!",
                 "ogTitle": "Archive",
                 "ogDescription": "Let's browse our categories!"
-            }
+            },
+            "noCategoriesText": "There are no categories, yet. Come back later."
         }
     },
     "hu": {
@@ -49,17 +51,18 @@
         "category": {
             "Category": "Kategória",
             "updatedText": "% napja frissítve",
-            "clickText": "Kattintson ide a teljes poszt megetkintéséhez",
             "seo": {
                 "metaTitle": "% - Kategória",
                 "metaDescription": "% - Kategória",
                 "ogTitle": "% - Kategória",
                 "ogDescription": "% - Kategória"
-            }
+            },
+            "noPostsText": "Nincsenek jelenleg bejegyzések. Jöjjön vissza később."
         },
         "home": {
             "headerTitle": "Blog",
-            "headerDescription": "Olvassa el a legújabb bejegyzéseinket."
+            "headerDescription": "Olvassa el a legújabb bejegyzéseinket.",
+            "noPostsText": "Nincsenek jelenleg bejegyzések. Jöjjön vissza később."
         },
         "archive": {
             "headerTitle": "Archívum",
@@ -69,7 +72,8 @@
                 "metaDescription": "Böngésszen a kategóriáink között!",
                 "ogTitle": "Archívum",
                 "ogDescription": "Böngésszen a kategóriáink között!"
-            }
+            },
+            "noCategoriesText": "Nincsenek jelenleg elérhető kategóriák. Jöjjön vissza később."
         }
     }
 }

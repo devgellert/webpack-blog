@@ -16,11 +16,16 @@
             <a href="{{this.link}}" class="list-group-item list-group-item-action" aria-current="true">
                 <div class="d-flex w-100 justify-content-between">
                     <h2 class="mb-1">{{this.title}}</h2>
-                    <small>2022. 02. 14</small>
+                    <small>{{this.updatedAt}}</small>
                 </div>
-                <p class="mb-1">Some placeholder content in a paragraph.</p>
-                <small>{{../i18n.clickText}}</small>
+                <p class="mb-1">{{this.description}}</p>
             </a>
+        {{else}}
+
+            <p class="text-center">
+                {{{i18n.noPostsText}}}
+            </p>
+
         {{/each}}
     </div>
 </main>

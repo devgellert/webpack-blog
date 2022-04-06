@@ -18,6 +18,10 @@
                     <h2 class="mb-1">{{this.name}}</h2>
                 </div>
             </a>
+        {{else}}
+            <p class="text-center">
+                {{{i18n.noCategoriesText}}}
+            </p>
         {{/each}}
     </div>
 </main>

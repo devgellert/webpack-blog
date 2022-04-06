@@ -19,6 +19,13 @@
                 </div>
                 <p class="mb-1">{{{ this.description }}}</p>
             </a>
+
+        {{else}}
+
+            <p class="text-center">
+                {{{i18n.noPostsText}}}
+            </p>
+
         {{/each}}
     </div>
 </main>

@@ -8,7 +8,8 @@
         },
 
         "single-post": {
-            "Content": "Content"
+            "Content": "Content",
+            "seeMore": "See more posts."
         },
         "category": {
             "Category": "Category",
@@ -46,7 +47,8 @@
             }
         },
         "single-post": {
-            "Content": "Tartalom"
+            "Content": "Tartalom",
+            "seeMore": "Böngésszen a többi bejegyzés között."
         },
         "category": {
             "Category": "Kategória",

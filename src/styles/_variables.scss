@@ -1,1 +1,33 @@
-$bg: #FAEBA9;
+$bg: #faeba9;
+
+// Breakpoints
+$bp__mobile__min: 319px;
+$bp__mobile__max: 899px;
+//
+$bp__tablet__max: 1199px;
+$bp__laptop__min: 1200px;
+$bp__laptop__max: 1440px;
+
+@mixin mobile() {
+  @media (max-width: #{$bp__mobile__max}) {
+    @content;
+  }
+}
+
+@mixin tablet() {
+  @media (min-width: #{$bp__mobile__max + 1}) and (max-width: #{$bp__tablet__max}) {
+    @content;
+  }
+}
+
+@mixin mobile-and-tabled() {
+  @media (max-width: #{$bp__tablet__max}) {
+    @content;
+  }
+}
+
+@mixin desktop() {
+  @media (min-width: #{$bp__tablet__max + 1}) {
+    @content;
+  }
+}

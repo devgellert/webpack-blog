@@ -1,21 +1,107 @@
 @import "variables";
 
-body {
-  background-color: white;
-}
+.single-post-main {
+  .post-wrap {
+    display: grid;
+    width: 1000px;
+    grid-template-columns: 300px 500px 200px;
+    margin: 0 auto;
 
-.post-wrap {
-  display: grid;
-  grid-template-columns: 300px 1fr 300px;
+    @include tablet {
+      width: 800px;
+      grid-template-columns: 300px 500px 0;
+    }
 
-  .post-aside {
-    padding: 20px;
-  }
+    @include mobile {
+      display: block;
+      width: 100%;
+    }
 
-  .post-content {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
+    .post-aside {
+      padding: 20px;
 
+      @include mobile {
+        display: none;
+      }
+    }
+
+    .aside-right {
+      @include mobile-and-tabled {
+        display: none;
+      }
+    }
+
+    .post-content {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+
+      .block {
+        img {
+          max-width: 100%;
+          margin-bottom: 20px;
+        }
+
+        p {
+        }
+
+        h1 {
+        }
+
+        h2 {
+        }
+
+        h3 {
+        }
+
+        h4 {
+        }
+
+        h5 {
+        }
+
+        h6 {
+        }
+
+        ul {
+          li {
+          }
+        }
+
+        ol {
+          li {
+          }
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 20px;
+
+          tr {
+            td,
+            th {
+              border: 1px solid black;
+              padding: 10px;
+            }
+          }
+        }
+
+        .warning {
+          width: 100%;
+          background-color: yellow;
+          padding: 20px;
+          margin-bottom: 20px;
+
+          .warning-title {
+            text-transform: uppercase;
+            font-weight: bold;
+          }
+
+          .warning-message {
+          }
+        }
+      }
+    }
   }
 }

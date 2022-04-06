@@ -9,96 +9,112 @@
     postHeader=true
 }}
 
-<main class="container post-wrap">
-    <aside class="post-aside">
-        <div>{{i18n.Content}}:</div>
+<main class="single-post-main">
+    <div class="post-wrap">
+        <aside class="post-aside">
+            <div>{{i18n.Content}}:</div>
 
-        <ul>
+            <ul>
+                {{#each post.blocks}}
+                    {{#[./helpers/eq] this.type "Header" }}
+                        {{#[./helpers/eq] this.data.level 2 }}
+                            <li>{{{this.data.text}}}</li>
+                        {{/[./helpers/eq]}}
+                    {{/[./helpers/eq]}}
+                {{/each}}
+            </ul>
+        </aside>
+
+        <article class="post-content">
             {{#each post.blocks}}
-                {{#[./helpers/eq] this.type "Header" }}
-                    {{#[./helpers/eq] this.data.level 2 }}
-                        <li>{{{this.data.text}}}</li>
-                    {{/[./helpers/eq]}}
-                {{/[./helpers/eq]}}
-            {{/each}}
-        </ul>
-    </aside>
-
-    <article class="post-content">
-        {{#each post.blocks}}
-            <div>
-                {{#[./helpers/eq] this.type "paragraph" }}
-                    <p>{{{this.data.text}}}</p>
-                {{/[./helpers/eq]}}
-
-                {{#[./helpers/eq] this.type "image" }}
-                    <img src="{{this.data.file.url}}" alt="todo">
-                {{/[./helpers/eq]}}
-
-                {{#[./helpers/eq] this.type "Header" }}
-                    {{#[./helpers/eq] this.data.level 1 }}
-                        <h1>{{{this.data.text}}}</h1>
+                <div class="block">
+                    {{#[./helpers/eq] this.type "paragraph" }}
+                        <p>{{{this.data.text}}}</p>
                     {{/[./helpers/eq]}}
 
-                    {{#[./helpers/eq] this.data.level 2 }}
-                        <h2>{{{this.data.text}}}</h2>
+                    {{#[./helpers/eq] this.type "image" }}
+                        <img src="{{this.data.file.url}}" alt="todo">
                     {{/[./helpers/eq]}}
 
-                    {{#[./helpers/eq] this.data.level 3 }}
-                        <h3>{{{this.data.text}}}</h3>
+                    {{#[./helpers/eq] this.type "Header" }}
+                        {{#[./helpers/eq] this.data.level 1 }}
+                            <h1>{{{this.data.text}}}</h1>
+                        {{/[./helpers/eq]}}
+
+                        {{#[./helpers/eq] this.data.level 2 }}
+                            <h2>{{{this.data.text}}}</h2>
+                        {{/[./helpers/eq]}}
+
+                        {{#[./helpers/eq] this.data.level 3 }}
+                            <h3>{{{this.data.text}}}</h3>
+                        {{/[./helpers/eq]}}
+
+                        {{#[./helpers/eq] this.data.level 4 }}
+                            <h4>{{{this.data.text}}}</h4>
+                        {{/[./helpers/eq]}}
+
+                        {{#[./helpers/eq] this.data.level 5 }}
+                            <h5>{{{this.data.text}}}</h5>
+                        {{/[./helpers/eq]}}
+
+                        {{#[./helpers/eq] this.data.level 6 }}
+                            <h6>{{{this.data.text}}}</h6>
+                        {{/[./helpers/eq]}}
                     {{/[./helpers/eq]}}
 
-                    {{#[./helpers/eq] this.data.level 4 }}
-                        <h4>{{{this.data.text}}}</h4>
-                    {{/[./helpers/eq]}}
-
-                    {{#[./helpers/eq] this.data.level 5 }}
-                        <h5>{{{this.data.text}}}</h5>
-                    {{/[./helpers/eq]}}
-
-                    {{#[./helpers/eq] this.data.level 6 }}
-                        <h6>{{{this.data.text}}}</h6>
-                    {{/[./helpers/eq]}}
-                {{/[./helpers/eq]}}
-
-                {{#[./helpers/eq] this.type "List" }}
-                    {{#[./helpers/eq] this.data.style "unordered" }}
-                        <ul>
-                            {{#each this.data.items}}
-                                <li>{{{this}}}</li>
-                            {{/each}}
-                        </ul>
-                    {{/[./helpers/eq]}}
-                    {{#[./helpers/eq] this.data.style "ordered" }}
-                        <ol>
-                            {{#each this.data.items}}
-                                <li>{{{this}}}</li>
-                            {{/each}}
-                        </ol>
-                    {{/[./helpers/eq]}}
-                {{/[./helpers/eq]}}
-
-                {{#[./helpers/eq] this.type "Table" }}
-                    {{#if this.data.withHeadings }}
-                        <table>
-                            <thead>
-                                {{#each this.data.content}}
-                                    {{#[./helpers/eq] @index 0}}
-                                        <tr>
-                                            {{#each this}}
-                                                <th>
-                                                    {{{this}}}
-                                                </th>
-                                            {{/each}}
-                                        </tr>
-                                    {{/[./helpers/eq]}}
+                    {{#[./helpers/eq] this.type "List" }}
+                        {{#[./helpers/eq] this.data.style "unordered" }}
+                            <ul>
+                                {{#each this.data.items}}
+                                    <li>{{{this}}}</li>
                                 {{/each}}
-                            </thead>
+                            </ul>
+                        {{/[./helpers/eq]}}
+                        {{#[./helpers/eq] this.data.style "ordered" }}
+                            <ol>
+                                {{#each this.data.items}}
+                                    <li>{{{this}}}</li>
+                                {{/each}}
+                            </ol>
+                        {{/[./helpers/eq]}}
+                    {{/[./helpers/eq]}}
 
-                            <tbody>
-                                {{#each this.data.content}}
-                                    {{#[./helpers/eq] @index 0}}
-                                    {{else}}
+                    {{#[./helpers/eq] this.type "Table" }}
+                        {{#if this.data.withHeadings }}
+                            <table>
+                                <thead>
+                                    {{#each this.data.content}}
+                                        {{#[./helpers/eq] @index 0}}
+                                            <tr>
+                                                {{#each this}}
+                                                    <th>
+                                                        {{{this}}}
+                                                    </th>
+                                                {{/each}}
+                                            </tr>
+                                        {{/[./helpers/eq]}}
+                                    {{/each}}
+                                </thead>
+
+                                <tbody>
+                                    {{#each this.data.content}}
+                                        {{#[./helpers/eq] @index 0}}
+                                        {{else}}
+                                            <tr>
+                                                {{#each this}}
+                                                    <td>
+                                                        {{{this}}}
+                                                    </td>
+                                                {{/each}}
+                                            </tr>
+                                        {{/[./helpers/eq]}}
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        {{else}}
+                            <table>
+                                <tbody>
+                                    {{#each this.data.content}}
                                         <tr>
                                             {{#each this}}
                                                 <td>
@@ -106,51 +122,38 @@
                                                 </td>
                                             {{/each}}
                                         </tr>
-                                    {{/[./helpers/eq]}}
-                                {{/each}}
-                            </tbody>
-                        </table>
-                    {{else}}
-                        <table>
-                            <tbody>
-                                {{#each this.data.content}}
-                                    <tr>
-                                        {{#each this}}
-                                            <td>
-                                                {{{this}}}
-                                            </td>
-                                        {{/each}}
-                                    </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
-                    {{/if}}
-                {{/[./helpers/eq]}}
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        {{/if}}
+                    {{/[./helpers/eq]}}
 
-                {{#[./helpers/eq] this.type "Warning" }}
-                    <div class="warning">
-                        <div class="warning-title">
-                            {{{this.data.title}}}
+                    {{#[./helpers/eq] this.type "Warning" }}
+                        <div class="warning">
+                            <div class="warning-title">
+                                {{{this.data.title}}}
+                            </div>
+                            <div class="warning-message">
+                                {{{this.data.message}}}
+                            </div>
                         </div>
-                        <div class="warning-message">
-                            {{{this.data.message}}}
-                        </div>
-                    </div>
-                {{/[./helpers/eq]}}
+                    {{/[./helpers/eq]}}
 
-                {{#[./helpers/eq] this.type "SimpleImage" }}
-                    <img src="{{this.data.url}}" alt="todo">
-<!--                TODO:-->
-<!--                    "caption" : "Roadster // tesla.com",-->
-<!--                    "withBorder" : false,-->
-<!--                    "withBackground" : false,-->
-<!--                    "stretched" : true-->
-                {{/[./helpers/eq]}}
-            </div>
-        {{/each}}
-    </article>
+                    {{#[./helpers/eq] this.type "SimpleImage" }}
+                        <img src="{{this.data.url}}" alt="todo">
+    <!--                TODO:-->
+    <!--                    "caption" : "Roadster // tesla.com",-->
+    <!--                    "withBorder" : false,-->
+    <!--                    "withBackground" : false,-->
+    <!--                    "stretched" : true-->
+                    {{/[./helpers/eq]}}
+                </div>
+            {{/each}}
+        </article>
 
-    <aside></aside>
+        <aside class="aside-right"></aside>
+
+    </div>
 </main>
 
 {{> _partials/tail }}

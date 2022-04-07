@@ -44,7 +44,8 @@
             "nav": {
                 "archive": "Achívum",
                 "home": "Főoldal"
-            }
+            },
+            "uncategorized": "Nincsen Kategóriája"
         },
         "single-post": {
             "Content": "Tartalom",

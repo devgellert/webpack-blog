@@ -4,7 +4,7 @@ name: Deploy to Pages (crazy-max/ghaction-github-pages)
 on:
   # Triggers the workflow on push events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [ production ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

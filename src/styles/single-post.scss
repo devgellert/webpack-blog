@@ -105,3 +105,16 @@
     }
   }
 }
+
+.latest-posts-wrap {
+  h2 {
+    text-align: center;
+  }
+
+  .latest-posts-grid {
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+  }
+}

@@ -15,6 +15,10 @@
 
     <meta name="og:description" content="{{ ogDescription }}"/>
 
+    {{#if ogImage }}
+        <meta name="og:image" content="{{ ogImage }}"/>
+    {{/if}}
+
     {{#each global.locale.all}}
         <link rel="alternate" hreflang="{{this.locale}}" href="{{this.url}}" />
     {{/each}}

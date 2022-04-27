@@ -34,6 +34,7 @@ jobs:
         run: npm run build
         env:
           API_URL: 'https://blog-cms-backend-2000.herokuapp.com/api'
+          MEDIA_URL: 'https://blog-cms-backend-2000.herokuapp.com/media'
           LOCALES: 'hu,en'
           DEFAULT_LOCALE: 'hu'
           PUBLIC_URL: 'https://devgellert.github.io/webpack-blog'

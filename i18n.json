@@ -37,6 +37,9 @@
                 "ogDescription": "Let's browse our categories!"
             },
             "noCategoriesText": "There are no categories, yet. Come back later."
+        },
+        "not-found": {
+            "notFound": "Not found"
         }
     },
     "hu": {
@@ -77,6 +80,9 @@
                 "ogDescription": "Böngésszen a kategóriáink között!"
             },
             "noCategoriesText": "Nincsenek jelenleg elérhető kategóriák. Jöjjön vissza később."
+        },
+        "not-found": {
+            "notFound": "Az oldal nem található"
         }
     }
 }

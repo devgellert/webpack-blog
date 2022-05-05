@@ -11,6 +11,6 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "blog-cms-ssg": "^1.2.8"
+        "blog-cms-ssg": "^1.2.9"
     }
 }

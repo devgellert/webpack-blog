@@ -4,7 +4,8 @@
             "nav": {
                 "archive": "Archive",
                 "home": "Home"
-            }
+            },
+            "uncategorized": "Uncategorized"
         },
 
         "single-post": {
@@ -48,7 +49,7 @@
                 "archive": "Achívum",
                 "home": "Főoldal"
             },
-            "uncategorized": "Nincsen Kategóriája"
+            "uncategorized": "Kategória nélküli"
         },
         "single-post": {
             "Content": "Tartalom",
